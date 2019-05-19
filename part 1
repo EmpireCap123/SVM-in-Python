@@ -1,0 +1,25 @@
+# Import the SVM
+from sklearn.svm import SVC
+clf = SVC(kernel='linear')
+clf.fit(X, y)
+
+prediction = clf.predict([[0,6]])
+
+# Tuning parameters
+# 1) C - controls the trade off between a smooth decision boundary and classifying training points correctly.
+#    Large C means more training data points will be classified correctly, this changes the hyperplane from linear to non-linear.
+#    The risk of higher C is that the hyperplanes created on the training data will be overfitting, and not generalize to the test data.
+#    Can play with different values of C to get the right balance.
+# 2) Gamma - if Gamma has a low value then decision boundary is based on closest data points and can be very non-linear.
+      if Gamma has a high value then decision boundary is based on all data points more evenly and will be very linear.
+
+# Grid Search for C and Gamma
+from sklearn import svm, grid_search
+def svc_param_selection(X, y, nfolds):
+    Cs = [0.001, 0.01, 0.1, 1, 10]
+    gammas = [0.001, 0.01, 0.1, 1]
+    param_grid = {'C': Cs, 'gamma' : gammas}
+    grid_search = GridSearchCV(svm.SVC(kernel='rbf'), param_grid, cv=nfolds)
+    grid_search.fit(X, y)
+    grid_search.best_params_
+    return grid_search.best_params_
